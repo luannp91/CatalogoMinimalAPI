@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using CatalogoMinimalAPI.ApiEndpoints;
+using CatalogoMinimalAPI.AppServicesExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,11 +81,8 @@ app.MapCategoryEndpoints();
 app.MapProductsEndpoints();
 
 //  Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+var environment = app.Environment;
+app.UseExceptionHandling(environment).UseSwaggerMiddleware().UseAppCors();
 
 app.UseHttpsRedirection();
 
